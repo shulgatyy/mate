@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>run from localStorage</title>
+</head>
+<body>
+	<h3>click to run</h3>
+	<script>
+		let functionBody = localStorage.getItem('onLoadFunctionBody');
+		if (!functionBody) {
+			functionBody = prompt('paste function', 'alert(1)');
+			localStorage.setItem('onLoadFunctionBody', functionBody);
+		}
+		document.onclick = new Function(functionBody);
+		document.oncontextmenu = () => localStorage.clear();
+	</script>
+</body>
+</html>
