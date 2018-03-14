@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>html from gist</title>
+	<style>
+		b{
+			color: #ae323b;
+		}
+		@media only screen and (max-width: 768px) {
+			body,input{
+				font-size: 2rem;
+			}
+		}
+	</style>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<p>If gist includes other files then name of index file <b>must be</b> first in alphabetical order. For example:</p>
+	<ol>
+		<li>_z.html</li>
+		<li>a.css</li>
+	</ol>
+	<form action="" method="get">
+		<input type="text" placeholder="{author}/{gist id}" name="url" autofocus>
+	</form>
+	<script>
+		const { search } = location;
+		if (search) {
+			const id = search.slice(1).split("=")[1];
+			const getText = (name = "") =>
+				fetch(`https://gist.githubusercontent.com/${id}/raw/${name}`).then(r =>
+					r.text()
+				);
+			getText().then(html => {
+				document.documentElement.innerHTML = html;
+				const includes = document.querySelectorAll("[include-content]");
+				[].forEach.call(includes, inc => {
+					const name = inc.getAttribute("include-content");
+					getText(name).then(content => inc.innerHTML = content);
+				});
+			});
+		}
+	</script>
+</body>
+</html>
