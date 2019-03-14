@@ -6,14 +6,18 @@
 </head>
 <body>
 	<h3>click to run</h3>
+	<h4>contextmenu to clear</h4>
 	<script>
 		let functionBody = localStorage.getItem('onLoadFunctionBody');
 		if (!functionBody) {
 			functionBody = prompt('paste function', 'alert(1)');
-			localStorage.setItem('onLoadFunctionBody', functionBody);
+			if (functionBody) localStorage.setItem('onLoadFunctionBody', functionBody);
 		}
 		document.onclick = new Function(functionBody);
-		document.oncontextmenu = () => localStorage.clear();
+		document.oncontextmenu = () => {
+			localStorage.removeItem('onLoadFunctionBody');
+			alert('cleared');
+		};
 	</script>
 </body>
 </html>
