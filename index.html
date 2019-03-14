@@ -5,16 +5,16 @@
 	<title>run from localStorage</title>
 </head>
 <body>
-	<h3>click to run</h3>
-	<h4>contextmenu to clear</h4>
+	<h3>click to run, contextmenu to clear</h3>
 	<script>
+		try {
 		let functionBody = localStorage.getItem('onLoadFunctionBody');
 		if (!functionBody) {
 			functionBody = prompt('paste function', 'alert(1)');
 			if (/^[\w\/\-]+$/.test(functionBody))
 				fetch(`https://gist.githubusercontent.com/${functionBody}/raw`)
-				.then(r => r.text())
-				.then(r => localStorage.setItem('onLoadFunctionBody', r));
+					.then(r => r.text())
+					.then(r => localStorage.setItem('onLoadFunctionBody', r));
 			if (functionBody) localStorage.setItem('onLoadFunctionBody', functionBody);
 		}
 		document.onclick = new Function(functionBody);
@@ -22,6 +22,9 @@
 			localStorage.removeItem('onLoadFunctionBody');
 			alert('cleared');
 		};
+		} catch(e) {
+			alert(e);
+		}
 	</script>
 </body>
 </html>
