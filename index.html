@@ -7,18 +7,20 @@
 <body>
 	<h3>click to run, contextmenu to clear</h3>
 	<script>
-		try {
 		let functionBody = localStorage.getItem('onLoadFunctionBody');
 		if (!functionBody) {
 			functionBody = prompt('paste function', 'alert(1)');
 			if (/^[\w\/\-]+$/.test(functionBody))
 				fetch(`https://gist.githubusercontent.com/${functionBody}/raw`)
 					.then(r => r.text())
+					.then(r => r.replace(/\s*\/\/.*/g, ''))
 					.then(r => localStorage.setItem('onLoadFunctionBody', r));
 			if (functionBody) localStorage.setItem('onLoadFunctionBody', functionBody);
 		}
+		try {
 		document.onclick = new Function(functionBody);
-		document.oncontextmenu = () => {
+		document.oncontextmenu = e => {
+			e.preventDefault();
 			localStorage.removeItem('onLoadFunctionBody');
 			alert('cleared');
 		};
