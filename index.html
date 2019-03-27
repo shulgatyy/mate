@@ -6,6 +6,7 @@
 </head>
 <body>
 	<h3>click to run, contextmenu to clear</h3>
+	<textarea></textarea>
 	<script>
 		let functionBody = localStorage.getItem('onLoadFunctionBody');
 		if (functionBody) {
@@ -38,6 +39,7 @@
 			localStorage.removeItem('onLoadFunctionBody');
 			alert('cleared');
 		};
+		document.body.querySelector('textarea').onchange = e => localStorage.setItem('onLoadFunctionBody', e.target.value);
 	</script>
 </body>
 </html>
