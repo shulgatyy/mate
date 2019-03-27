@@ -14,7 +14,9 @@
 				fetch(`https://gist.githubusercontent.com/${functionBody}/raw`)
 					.then(r => r.text())
 					.then(r => r.replace(/\s*\/\/.*/g, ''))
-					.then(r => localStorage.setItem('onLoadFunctionBody', r));
+					.then(r => localStorage.setItem('onLoadFunctionBody', r))
+					.then(() => location.reload())
+					.catch(alert);
 			else if (functionBody) localStorage.setItem('onLoadFunctionBody', functionBody);
 		}
 		try {
