@@ -8,7 +8,16 @@
 	<h3>click to run, contextmenu to clear</h3>
 	<script>
 		let functionBody = localStorage.getItem('onLoadFunctionBody');
-		if (!functionBody) {
+		if (functionBody) {
+			const onClick = new Function(functionBody);
+			document.onclick = () => {
+				try {
+					onClick();
+				catch (e) {
+					alert(e);
+				}
+			};
+		} else {
 			functionBody = prompt('paste function', 'alert(1)');
 			if (functionBody && /^[\w\/\-]+$/.test(functionBody))
 				fetch(`https://gist.githubusercontent.com/${functionBody}/raw`)
@@ -19,16 +28,11 @@
 					.catch(alert);
 			else if (functionBody) localStorage.setItem('onLoadFunctionBody', functionBody);
 		}
-		try {
-		document.onclick = new Function(functionBody);
 		document.oncontextmenu = e => {
 			e.preventDefault();
 			localStorage.removeItem('onLoadFunctionBody');
 			alert('cleared');
 		};
-		} catch(e) {
-			alert(e);
-		}
 	</script>
 </body>
 </html>
