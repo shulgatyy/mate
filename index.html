@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>run from localStorage</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 	<h3>click to run, contextmenu to clear</h3>
@@ -12,9 +13,11 @@
 		if (functionBody) {
 			try {
 				const onClick = new Function(functionBody);
-				document.onclick = () => {
+				document.onclick = e => {
+					const tag = e.target.tagName;
 					try {
-						onClick();
+						if (tag == 'HTML' || tag=='BODY')
+							onClick();
 					} catch (e) {
 						alert(e);
 					}
